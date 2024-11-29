@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Multiple Disease Risk Prediction System</title>
+    <link rel="stylesheet" href="login.css">
+</head>
+<body>
+    <header>
+        <h1>Welcome to Multiple Disease Risk Prediction System</h1>
+        <p>Your personal health assistant for diabetes and heart disease predictions.</p>
+    </header>
+
+    <main>
+        <h2>Login</h2>
+        <form id="loginForm">
+            <label for="username">Username:</label>
+            <input type="text" id="username" required>
+            <label for="password">Password:</label>
+            <input type="password" id="password" required>
+            <button type="submit">Login</button>
+        </form>
+
+        <div id="predictionArea" style="display: none;">
+            <h2>Select Disease to Predict</h2>
+            <button onclick="showDiabetesForm()">Diabetes</button>
+            <button onclick="showHeartDiseaseForm()">Heart Disease</button>
+            <div id="diseaseForm" style="display: none;"></div>
+            <div id="prevention" style="display: none;"></div>
+        </div>
+    </main>
+
+    <footer>
+       
+    </footer>
+
+    <script src="login.js"></script>
+    <script>
+        const loginForm = document.getElementById('loginForm');
+    
+        // Function to reset login status
+        function resetLoginStatus() {
+            document.getElementById('username').value = '';
+            document.getElementById('password').value = '';
+        }
+    
+        // Listen for form submission
+        loginForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+    
+            // Get form data
+            const username = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
+    
+            // Fetch the data from your Google Apps Script web app
+            fetch('https://script.google.com/macros/s/AKfycbyZlabAosKbJXR-ix4ibts5T1bm69mPyBa6nc-GkZ-tPmT3fc9psJ0BR_4sThfYayS5/exec', { 
+                method: 'POST', 
+                headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+                body: `action=login&username=${encodeURIComponent(username)}&password=${encodeURIComponent(password)}`
+            })
+            .then(response => response.text()) // Convert the response to text
+            .then(data => {
+                // Trim the data to avoid issues with extra spaces or newlines
+                const trimmedData = data.trim();
+                if (trimmedData === 'Login Successful') { // Checking for a successful response
+                    alert('Login successful!');
+                } else {
+                    alert('Invalid password!');
+                    resetLoginStatus(); // Reset login fields if password is incorrect
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert('Something went wrong. Please try again later.');
+                resetLoginStatus(); // Reset login fields in case of an error
+            });
+        });
+    </script>
+</body>
+</html>

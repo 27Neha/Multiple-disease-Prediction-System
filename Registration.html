@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Registration - Multiple Disease Risk Prediction System</title>
+    <link rel="stylesheet" href="registration.css">
+</head>
+<body>
+    <header>
+        <h1>Register for Multiple Disease Risk Prediction System</h1>
+        <p>Create your account to get started with personalized predictions.</p>
+    </header>
+
+    <main>
+        <h2>Registration</h2>
+        <form id="registrationForm"> <!-- The id should be registrationForm -->
+            <div class="input-box">
+                <div class="input-field">
+                    <input type="text" name="firstName" placeholder="First Name" required>
+                    <i class='bx bxs-user'></i>
+                </div>
+                <div class="input-field">
+                    <input type="text" name="lastName" placeholder="Last Name" required>
+                    <i class='bx bxs-user'></i>
+                </div>
+                <div class="input-field">
+                    <input type="text" name="username" placeholder="Username" required>
+                    <i class='bx bx-user-circle'></i>
+                </div>
+            </div>
+            
+            <!-- Email ID -->
+            <div class="input-box">
+                <div class="input-field">
+                    <input type="email" name="email" placeholder="Email ID" required>
+                    <i class='bx bx-envelope'></i>
+                </div>
+            </div>
+            
+            <!-- Password and Confirm Password -->
+            <div class="input-box">
+                <div class="input-field">
+                    <input type="password" name="password" id="password" placeholder="Password" required>
+                    <i class='bx bxs-lock-alt'></i>
+                </div>
+                <div class="input-field">
+                    <input type="password" name="confirmPassword" id="confirmPassword" placeholder="Confirm Password" required>
+                    <i class='bx bxs-lock'></i>
+                </div>
+            </div>
+            
+
+            <button type="submit" name = "submit" class = "btn">Register</button>
+        </form>
+    </main>
+
+    <footer>
+        <p>&copy; 2024 Multiple Disease Risk Prediction System. All rights reserved.</p>
+    </footer>
+
+    <script>
+      // URL for your deployed Google Apps Script
+      const scriptURL = 'https://script.google.com/macros/s/AKfycbwGN0IZP7-KtpoaBafqfQSzAYx4ckUA2K075G1TEsMmPHE8gUtBJcCJQNGCJ-n4y4Qa/exec';
+
+      // Get the form element by its ID
+      const form = document.getElementById('registrationForm');
+
+      // Add event listener to handle form submission
+     form.addEventListener('submit', e => {
+     e.preventDefault(); // Prevent default form submission
+
+    // Get the password and confirm password values
+    const password = document.getElementById('password').value;
+    const confirmPassword = document.getElementById('confirmPassword').value;
+
+    // Check if password and confirm password match
+    if (password !== confirmPassword) {
+        alert('Password and Confirm Password should be the same.');
+        return; // Prevent form submission if passwords don't match
+    }
+
+    // Send form data to Google Apps Script using Fetch API if passwords match
+    fetch(scriptURL, { 
+        method: 'POST', 
+        body: new FormData(form) 
+    })
+    .then(response => {
+        alert('Data Saved Successfully!!');
+        window.location.href = 'login.html'; // Redirect to the login page
+    })
+    .catch(error => {
+        console.error('Error:', error.message);
+    });
+    });
+     
+    </script>
+</body>
+</html>
